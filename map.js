@@ -79,6 +79,8 @@ function computeStationTraffic(stations, trips) {
   });
 }
 
+let stationFlow = d3.scaleQuantize().domain([0, 1]).range([0, 0.5, 1]);
+
 map.on('load', async () => {
   map.addSource('boston_route', {
     type: 'geojson',
@@ -175,9 +177,12 @@ const circles = svg
     : radiusScale.range([3, 50]);
 
   circles
-    .data(filteredStations, (d) => d.short_name)
-    .join('circle')
-    .attr('r', (d) => radiusScale(d.totalTraffic));
+  .data(filteredStations, (d) => d.short_name)
+  .join('circle')
+  .attr('r', (d) => radiusScale(d.totalTraffic))
+  .style('--departure-ratio', (d) =>
+    stationFlow(d.totalTraffic === 0 ? 0.5 : d.departures / d.totalTraffic),
+  );
 }
 
 

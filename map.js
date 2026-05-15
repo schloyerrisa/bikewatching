@@ -154,7 +154,6 @@ const circles = svg
   .enter()
   .append('circle')
   .attr('r', (d) => radiusScale(d.totalTraffic))
-  .attr('fill', 'steelblue')
   .attr('stroke', 'white')
   .attr('stroke-width', 1)
   .attr('opacity', 0.8)
